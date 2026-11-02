@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admissions | Falalu International Academy</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- 1. Design System & Variables --- */
+        :root {
+            --primary: #0F172A; 
+            --primary-light: #1E293B;
+            --secondary: #2563EB; 
+            --secondary-hover: #1D4ED8;
+            --accent: #D97706; 
+            --accent-hover: #B45309;
+            
+            --surface: #FFFFFF;
+            --bg: #F8FAFC;
+            --border: #E2E8F0;
+            
+            --text-main: #334155;
+            --text-light: #64748B;
+            
+            --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-serif: 'Playfair Display', Georgia, serif;
+            
+            --container-max: 1200px;
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* --- 2. Reset & Base --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body.no-scroll { overflow: hidden; }
+
+        a { color: inherit; text-decoration: none; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        /* --- 3. Typography & Utilities --- */
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-padding { padding: clamp(4rem, 8vw, 7rem) 0; }
+
+        .heading-xl {
+            font-family: var(--font-serif);
+            font-size: clamp(2.25rem, 5vw, 3.5rem);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            color: var(--surface);
+            margin-bottom: 1.25rem;
+        }
+
+        .heading-lg {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .heading-md {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .body-lg {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            max-width: 65ch;
+        }
+
+        /* --- 4. Buttons --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-align: center;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .btn:focus-visible { outline: 2px solid var(--secondary); outline-offset: 2px; }
+
+        .btn-primary { background-color: var(--secondary); color: var(--surface); }
+        .btn-primary:hover { background-color: var(--secondary-hover); }
+
+        .btn-accent { background-color: var(--accent); color: var(--surface); }
+        .btn-accent:hover { background-color: var(--accent-hover); }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--surface);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        .btn-outline:hover { background-color: var(--surface); color: var(--primary); border-color: var(--surface); }
+
+        /* --- 5. Navigation --- */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--surface);
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .logo i { color: var(--accent); font-size: 1.5rem; }
+        
+        .logo-text span {
+            display: block;
+            font-family: var(--font-sans);
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #94A3B8;
+            margin-top: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--surface);
+            opacity: 0.8;
+            transition: opacity var(--transition-fast);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform var(--transition-smooth);
+        }
+
+        .nav-links a:hover, .nav-links a.active { opacity: 1; }
+        .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); transform-origin: left; }
+
+        .nav-actions { display: flex; align-items: center; gap: 1.5rem; }
+
+        .portal-link {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--surface);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0.8;
+            transition: opacity var(--transition-fast);
+        }
+        .portal-link:hover { opacity: 1; }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--surface);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+
+        /* --- 6. Page Hero --- */
+        .page-hero {
+            background-color: var(--primary);
+            padding: 5rem 0 4rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 1)), 
+                        url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop') center/cover;
+            opacity: 0.4;
+            z-index: 0;
+        }
+
+        .page-hero .container { position: relative; z-index: 1; }
+        
+        .page-hero .heading-xl { margin-bottom: 0.5rem; }
+        .page-hero p { color: #CBD5E1; font-size: 1.125rem; max-width: 600px; margin: 0 auto; }
+
+        /* --- 7. Requirements Section --- */
+        .req-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .req-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            transition: all var(--transition-smooth);
+        }
+
+        .req-card:hover {
+            border-color: var(--secondary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .req-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #EFF6FF;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary);
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .req-card h3 { font-size: 1.125rem; margin-bottom: 1rem; }
+        .req-card ul { display: flex; flex-direction: column; gap: 0.75rem; }
+        .req-card li {
+            font-size: 0.9375rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+        .req-card li i { color: var(--accent); margin-top: 4px; font-size: 0.875rem; }
+
+        /* --- 8. Application Form Section --- */
+        .form-section {
+            background-color: #FFFFFF;
+            border-top: 1px solid var(--border);
+        }
+
+        .form-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .form-header {
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .form-group.full-width { grid-column: 1 / -1; }
+
+        .form-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .form-label span { color: #DC2626; } /* Required asterisk */
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 0.9375rem;
+            font-family: var(--font-sans);
+            color: var(--text-main);
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+            appearance: none;
+        }
+
+        .form-control:focus {
+            outline: none;
+            background-color: var(--surface);
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .form-control::placeholder { color: #94A3B8; }
+
+        select.form-control {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748B'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1rem;
+            padding-right: 2.5rem;
+        }
+
+        /* File Upload Styling */
+        .file-upload {
+            border: 1px dashed #CBD5E1;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            background-color: var(--bg);
+        }
+        
+        .file-upload:hover {
+            border-color: var(--secondary);
+            background-color: #F8FAFC;
+        }
+        
+        .file-upload i { font-size: 1.5rem; color: var(--text-light); margin-bottom: 0.5rem; }
+        .file-upload p { font-size: 0.875rem; color: var(--text-light); margin: 0; }
+        .file-upload span { color: var(--secondary); font-weight: 600; }
+        
+        /* Hide actual file input */
+        .file-upload input[type="file"] { display: none; }
+
+        /* Submit Button & Loading */
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            margin-top: 1rem;
+            position: relative;
+        }
+
+        .submit-btn.loading {
+            color: transparent;
+            pointer-events: none;
+        }
+
+        .submit-btn .spinner {
+            display: none;
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        .submit-btn.loading .spinner { display: block; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 3rem 1rem;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .success-icon {
+            width: 64px;
+            height: 64px;
+            background-color: #DCFCE7;
+            color: #16A34A;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1.5rem auto;
+        }
+
+        .ref-number {
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            font-family: monospace;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 1.5rem 0;
+            letter-spacing: 2px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 9. Footer --- */
+        .footer {
+            background-color: var(--primary);
+            color: var(--text-light);
+            padding: 4rem 0 2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand p { margin-top: 1rem; font-size: 0.875rem; color: #94A3B8; max-width: 300px; }
+
+        .footer-heading {
+            color: var(--surface);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.25rem;
+        }
+
+        .footer-links li { margin-bottom: 0.75rem; }
+        .footer-links a { font-size: 0.875rem; color: #94A3B8; transition: color var(--transition-fast); }
+        .footer-links a:hover { color: var(--accent); }
+
+        .contact-list li { display: flex; gap: 0.75rem; margin-bottom: 1rem; font-size: 0.875rem; color: #94A3B8; }
+        .contact-list i { color: var(--accent); margin-top: 3px; width: 16px; }
+
+        .social-links { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--surface);
+            transition: all var(--transition-fast);
+        }
+        .social-btn:hover { background-color: var(--accent); color: var(--surface); }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            font-size: 0.8125rem;
+            color: #64748B;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        /* --- 10. Responsive Adaptations --- */
+        @media (max-width: 1024px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .req-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .form-wrapper { padding: 2rem; }
+        }
+
+        @media (max-width: 850px) {
+            .nav-links, .nav-actions { display: none; }
+            .mobile-toggle { display: block; }
+            .form-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .footer-grid { grid-template-columns: 1fr; }
+            .form-wrapper { padding: 1.5rem; border: none; box-shadow: none; background: transparent; }
+            .form-section { background-color: var(--bg); padding: 0 1rem; }
+            .page-hero { padding: 4rem 0 3rem 0; }
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-nav {
+            position: fixed;
+            top: 72px;
+            left: 0;
+            width: 100%;
+            height: calc(100dvh - 72px);
+            background-color: var(--primary);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            transform: translateX(100%);
+            transition: transform var(--transition-smooth);
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.active { transform: translateX(0); }
+
+        .mobile-nav a {
+            color: var(--surface);
+            font-size: 1.25rem;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <div class="logo-text">
+                    FIA
+                    <span>Falalu Int'l Academy</span>
+                </div>
+            </a>
+            
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="academics.html">Academics</a>
+                <a href="admissions.html" class="active">Admissions</a>
+                <a href="facilities.html">Facilities</a>
+                <a href="news.html">News & Events</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="portal.html" class="portal-link">
+                    <i class="fa-regular fa-user"></i> Portals
+                </a>
+                <a href="admissions.html" class="btn btn-accent">Apply Now</a>
+            </div>
+
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav" id="mobileNav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="academics.html">Academics</a>
+        <a href="admissions.html" style="color: var(--accent);">Admissions</a>
+        <a href="facilities.html">Facilities</a>
+        <a href="news.html">News & Events</a>
+        <a href="contact.html">Contact</a>
+        <a href="portal.html" style="margin-top: 1rem;">
+            <i class="fa-regular fa-user"></i> Student/Parent Portal
+        </a>
+    </div>
+
+    <main>
+        <!-- Page Hero -->
+        <section class="page-hero">
+            <div class="container">
+                <h1 class="heading-xl">Admissions Open</h1>
+                <p>Join a community dedicated to Knowledge, Discipline & Excellence. Begin your child's journey for the 2026/2027 academic session.</p>
+            </div>
+        </section>
+
+        <!-- Requirements Section -->
+        <section class="section-padding">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h2 class="heading-lg">Admission Requirements</h2>
+                    <p class="body-lg" style="margin: 0 auto;">Please ensure you have the following documents ready before starting your application.</p>
+                </div>
+
+                <div class="req-grid">
+                    <!-- Nursery -->
+                    <div class="req-card">
+                        <div class="req-icon"><i class="fa-solid fa-shapes"></i></div>
+                        <h3 class="heading-md">Nursery & Creche</h3>
+                        <ul>
+                            <li><i class="fa-solid fa-check"></i> Birth Certificate</li>
+                            <li><i class="fa-solid fa-check"></i> Recent Passport Photographs</li>
+                            <li><i class="fa-solid fa-check"></i> Completed Admission Form</li>
+                        </ul>
+                    </div>
+
+                    <!-- Primary -->
+                    <div class="req-card">
+                        <div class="req-icon"><i class="fa-solid fa-book-open"></i></div>
+                        <h3 class="heading-md">Primary School</h3>
+                        <ul>
+                            <li><i class="fa-solid fa-check"></i> Birth Certificate</li>
+                            <li><i class="fa-solid fa-check"></i> Previous School Records (if applicable)</li>
+                            <li><i class="fa-solid fa-check"></i> Passport Photographs</li>
+                        </ul>
+                    </div>
+
+                    <!-- Secondary -->
+                    <div class="req-card">
+                        <div class="req-icon"><i class="fa-solid fa-microscope"></i></div>
+                        <h3 class="heading-md">Secondary School</h3>
+                        <ul>
+                            <li><i class="fa-solid fa-check"></i> Previous Academic Results</li>
+                            <li><i class="fa-solid fa-check"></i> Transfer Certificate (if applicable)</li>
+                            <li><i class="fa-solid fa-check"></i> Birth Certificate & Passport Photographs</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Application Form Section -->
+        <section class="form-section section-padding">
+            <div class="container">
+                <div class="form-wrapper">
+                    
+                    <!-- Form Area -->
+                    <div id="formArea">
+                        <div class="form-header">
+                            <h2 class="heading-lg" style="margin-bottom: 0.5rem;">Online Application Form</h2>
+                            <p style="color: var(--text-light);">Please fill out all required fields accurately. Fields marked with <span style="color:#DC2626;">*</span> are mandatory.</p>
+                        </div>
+
+                        <form id="admissionForm">
+                            <div class="form-grid">
+                                <!-- Student Details -->
+                                <div class="form-group full-width">
+                                    <label class="form-label" for="studentName">Student's Full Name <span>*</span></label>
+                                    <input type="text" id="studentName" class="form-control" placeholder="e.g. John Doe" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="dob">Date of Birth <span>*</span></label>
+                                    <input type="date" id="dob" class="form-control" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="gender">Gender <span>*</span></label>
+                                    <select id="gender" class="form-control" required>
+                                        <option value="" disabled selected>Select Gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="classApplying">Class Applying For <span>*</span></label>
+                                    <select id="classApplying" class="form-control" required>
+                                        <option value="" disabled selected>Select Class</option>
+                                        <optgroup label="Nursery">
+                                            <option value="creche">Creche</option>
+                                            <option value="nursery1">Nursery 1</option>
+                                            <option value="nursery2">Nursery 2</option>
+                                        </optgroup>
+                                        <optgroup label="Primary">
+                                            <option value="primary1">Primary 1</option>
+                                            <option value="primary2">Primary 2</option>
+                                            <option value="primary3">Primary 3</option>
+                                            <option value="primary4">Primary 4</option>
+                                            <option value="primary5">Primary 5</option>
+                                            <option value="primary6">Primary 6</option>
+                                        </optgroup>
+                                        <optgroup label="Secondary">
+                                            <option value="jss1">JSS 1</option>
+                                            <option value="jss2">JSS 2</option>
+                                            <option value="jss3">JSS 3</option>
+                                            <option value="ss1">SS 1</option>
+                                            <option value="ss2">SS 2</option>
+                                            <option value="ss3">SS 3</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="prevSchool">Previous School (if any)</label>
+                                    <input type="text" id="prevSchool" class="form-control" placeholder="Name of previous school">
+                                </div>
+
+                                <div class="form-group full-width" style="margin-top: 1rem;">
+                                    <h3 class="heading-md" style="font-size: 1.125rem;">Parent / Guardian Information</h3>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="parentName">Parent/Guardian Full Name <span>*</span></label>
+                                    <input type="text" id="parentName" class="form-control" placeholder="e.g. Jane Doe" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="phone">Phone Number <span>*</span></label>
+                                    <input type="tel" id="phone" class="form-control" placeholder="+234 800 000 0000" required>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label class="form-label" for="email">Email Address <span>*</span></label>
+                                    <input type="email" id="email" class="form-control" placeholder="you@example.com" required>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label class="form-label" for="address">Residential Address <span>*</span></label>
+                                    <input type="text" id="address" class="form-control" placeholder="Street, City, State" required>
+                                </div>
+
+                                <div class="form-group full-width" style="margin-top: 1rem;">
+                                    <h3 class="heading-md" style="font-size: 1.125rem;">Document Uploads</h3>
+                                </div>
+
+                                <!-- Passport Upload -->
+                                <div class="form-group">
+                                    <label class="form-label">Upload Passport Photograph <span>*</span></label>
+                                    <label class="file-upload">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                                        <p><span>Click to browse</span> or drag and drop</p>
+                                        <p style="font-size: 0.75rem; margin-top: 0.25rem;">JPG, PNG up to 5MB</p>
+                                        <input type="file" accept=".jpg, .jpeg, .png" required>
+                                    </label>
+                                </div>
+
+                                <!-- Records Upload -->
+                                <div class="form-group">
+                                    <label class="form-label">Upload Previous Academic Records</label>
+                                    <label class="file-upload">
+                                        <i class="fa-solid fa-file-pdf"></i>
+                                        <p><span>Click to browse</span> or drag and drop</p>
+                                        <p style="font-size: 0.75rem; margin-top: 0.25rem;">PDF up to 10MB</p>
+                                        <input type="file" accept=".pdf">
+                                    </label>
+                                </div>
+
+                            </div>
+
+                            <button type="submit" class="btn btn-primary submit-btn" id="submitBtn">
+                                <span class="btn-text">Submit Application</span>
+                                <div class="spinner"></div>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Success Area (Hidden by default) -->
+                    <div id="successArea" class="success-message">
+                        <div class="success-icon">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <h2 class="heading-lg" style="margin-bottom: 0.5rem;">Application Received!</h2>
+                        <p style="color: var(--text-light);">Thank you for applying to Falalu International Academy. Your application has been successfully submitted.</p>
+                        
+                        <p style="margin-top: 2rem; font-size: 0.875rem; font-weight: 600; color: var(--primary);">Your Application Reference Number:</p>
+                        <div class="ref-number" id="refNumber">FIA-2026-0000</div>
+                        
+                        <p style="color: var(--text-light); font-size: 0.875rem; margin-bottom: 2rem;">Please save this reference number. Our admissions team will contact you shortly via email or phone.</p>
+                        
+                        <a href="index.html" class="btn btn-outline" style="color: var(--primary); border-color: var(--border);">Return to Homepage</a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <div class="logo-text">
+                            FIA
+                            <span>Falalu Int'l Academy</span>
+                        </div>
+                    </a>
+                    <p>Providing quality education through academic excellence, innovative teaching methods, and character development.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-btn" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-btn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="management.html">Management</a></li>
+                        <li><a href="academics.html">Academics</a></li>
+                        <li><a href="admissions.html">Admissions</a></li>
+                        <li><a href="facilities.html">Facilities</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="news.html">News & Events</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="calendar.html">Academic Calendar</a></li>
+                        <li><a href="fees.html">School Fees</a></li>
+                        <li><a href="portal.html">Student Portal</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Contact Us</h4>
+                    <ul class="contact-list">
+                        <li>
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>Minna, Niger State, Nigeria.</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-phone"></i>
+                            <span>+234 803 456 7890</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-envelope"></i>
+                            <span>info@falaluacademy.example</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Falalu International Academy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript: Form Logic & Mobile Menu -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Mobile Menu Logic ---
+            const mobileToggle = document.getElementById('mobileToggle');
+            const mobileNav = document.getElementById('mobileNav');
+            const toggleIcon = mobileToggle.querySelector('i');
+            const body = document.body;
+
+            const toggleMenu = () => {
+                const isOpen = mobileNav.classList.contains('active');
+                if (isOpen) {
+                    mobileNav.classList.remove('active');
+                    body.classList.remove('no-scroll');
+                    toggleIcon.classList.remove('fa-xmark');
+                    toggleIcon.classList.add('fa-bars');
+                } else {
+                    mobileNav.classList.add('active');
+                    body.classList.add('no-scroll');
+                    toggleIcon.classList.remove('fa-bars');
+                    toggleIcon.classList.add('fa-xmark');
+                }
+            };
+
+            mobileToggle.addEventListener('click', toggleMenu);
+            mobileNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => { if (mobileNav.classList.contains('active')) toggleMenu(); });
+            });
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 850 && mobileNav.classList.contains('active')) toggleMenu();
+            });
+
+            // --- Form Submission Logic ---
+            const form = document.getElementById('admissionForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const formArea = document.getElementById('formArea');
+            const successArea = document.getElementById('successArea');
+            const refNumber = document.getElementById('refNumber');
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault(); // Prevent actual form submission
+
+                // Show loading state
+                submitBtn.classList.add('loading');
+
+                // Simulate network request (1.5 seconds)
+                setTimeout(() => {
+                    // Generate a random reference number
+                    const randomNum = Math.floor(1000 + Math.random() * 9000);
+                    refNumber.textContent = `FIA-2026-${randomNum}`;
+
+                    // Hide form, show success message
+                    formArea.style.display = 'none';
+                    successArea.style.display = 'block';
+
+                    // Scroll to top of the form wrapper to see success message
+                    document.querySelector('.form-wrapper').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+  </html>
