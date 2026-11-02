@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News & Events | Falalu International Academy</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- 1. Design System & Variables --- */
+        :root {
+            --primary: #0F172A; 
+            --primary-light: #1E293B;
+            --secondary: #2563EB; 
+            --secondary-hover: #1D4ED8;
+            --accent: #D97706; 
+            --accent-hover: #B45309;
+            
+            --surface: #FFFFFF;
+            --bg: #F8FAFC;
+            --border: #E2E8F0;
+            
+            --text-main: #334155;
+            --text-light: #64748B;
+            
+            --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-serif: 'Playfair Display', Georgia, serif;
+            
+            --container-max: 1200px;
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+            
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* --- 2. Reset & Base --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body.no-scroll { overflow: hidden; }
+        a { color: inherit; text-decoration: none; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        /* --- 3. Typography & Utilities --- */
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-padding { padding: clamp(4rem, 8vw, 7rem) 0; }
+
+        .heading-xl {
+            font-family: var(--font-serif);
+            font-size: clamp(2.25rem, 5vw, 3.5rem);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            color: var(--surface);
+            margin-bottom: 1.25rem;
+        }
+
+        .heading-lg {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .heading-md {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .body-lg {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            max-width: 65ch;
+            line-height: 1.7;
+        }
+
+        /* --- 4. Buttons --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-align: center;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .btn:focus-visible { outline: 2px solid var(--secondary); outline-offset: 2px; }
+        .btn-primary { background-color: var(--secondary); color: var(--surface); }
+        .btn-primary:hover { background-color: var(--secondary-hover); }
+        .btn-accent { background-color: var(--accent); color: var(--surface); }
+        .btn-accent:hover { background-color: var(--accent-hover); }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-main);
+            border-color: var(--border);
+        }
+        .btn-outline:hover { background-color: var(--bg); border-color: #CBD5E1; }
+
+        /* --- 5. Navigation --- */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--surface);
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .logo i { color: var(--accent); font-size: 1.5rem; }
+        
+        .logo-text span {
+            display: block;
+            font-family: var(--font-sans);
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #94A3B8;
+            margin-top: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--surface);
+            opacity: 0.8;
+            transition: opacity var(--transition-fast);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform var(--transition-smooth);
+        }
+
+        .nav-links a:hover, .nav-links a.active { opacity: 1; }
+        .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); transform-origin: left; }
+
+        .nav-actions { display: flex; align-items: center; gap: 1.5rem; }
+
+        .portal-link {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--surface);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0.8;
+            transition: opacity var(--transition-fast);
+        }
+        .portal-link:hover { opacity: 1; }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--surface);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+
+        /* --- 6. Page Hero --- */
+        .page-hero {
+            background-color: var(--primary);
+            padding: 5rem 0 4rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 1)), 
+                        url('https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=2070&auto=format&fit=crop') center/cover;
+            opacity: 0.4;
+            z-index: 0;
+        }
+
+        .page-hero .container { position: relative; z-index: 1; }
+        .page-hero .heading-xl { margin-bottom: 0.5rem; }
+        .page-hero p { color: #CBD5E1; font-size: 1.125rem; max-width: 600px; margin: 0 auto; }
+
+        /* --- 7. Featured Article --- */
+        .featured-section {
+            padding-top: clamp(3rem, 6vw, 5rem);
+        }
+
+        .featured-card {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-smooth);
+        }
+
+        .featured-card:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: #CBD5E1;
+        }
+
+        .featured-image {
+            background-size: cover;
+            background-position: center;
+            min-height: 400px;
+        }
+
+        .featured-content {
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: #EFF6FF;
+            color: var(--secondary);
+            padding: 0.35rem 0.75rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            align-self: flex-start;
+        }
+
+        .featured-content h2 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1.3;
+            margin-bottom: 1rem;
+        }
+
+        .featured-content p {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .meta-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 0.875rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .meta-info span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* --- 8. News Grid --- */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .news-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: #CBD5E1;
+            transform: translateY(-4px);
+        }
+
+        .news-img {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .news-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .news-content h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+            flex-grow: 1;
+        }
+
+        .news-content p {
+            color: var(--text-light);
+            font-size: 0.9375rem;
+            margin-bottom: 1.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .read-more {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--secondary);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: gap var(--transition-fast);
+            margin-top: auto;
+        }
+
+        .read-more:hover {
+            gap: 0.75rem;
+        }
+
+        /* --- 9. Pagination --- */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 4rem;
+        }
+
+        .page-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            background-color: var(--surface);
+            color: var(--text-main);
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            border-color: var(--secondary);
+            color: var(--secondary);
+            background-color: #EFF6FF;
+        }
+
+        .page-btn.active {
+            background-color: var(--secondary);
+            color: var(--surface);
+            border-color: var(--secondary);
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: var(--bg);
+        }
+
+        /* --- 10. Footer --- */
+        .footer {
+            background-color: var(--primary);
+            color: var(--text-light);
+            padding: 4rem 0 2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand p { margin-top: 1rem; font-size: 0.875rem; color: #94A3B8; max-width: 300px; }
+        .footer-heading { color: var(--surface); font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.25rem; }
+        .footer-links li { margin-bottom: 0.75rem; }
+        .footer-links a { font-size: 0.875rem; color: #94A3B8; transition: color var(--transition-fast); }
+        .footer-links a:hover { color: var(--accent); }
+        .contact-list li { display: flex; gap: 0.75rem; margin-bottom: 1rem; font-size: 0.875rem; color: #94A3B8; }
+        .contact-list i { color: var(--accent); margin-top: 3px; width: 16px; }
+        .social-links { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+        
+        .social-btn {
+            display: flex; align-items: center; justify-content: center;
+            width: 32px; height: 32px; border-radius: var(--radius-sm);
+            background-color: rgba(255, 255, 255, 0.05); color: var(--surface);
+            transition: all var(--transition-fast);
+        }
+        .social-btn:hover { background-color: var(--accent); color: var(--surface); }
+
+        .footer-bottom {
+            padding-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex; justify-content: center; align-items: center;
+            font-size: 0.8125rem; color: #64748B; flex-wrap: wrap; gap: 1rem;
+        }
+
+        /* --- 11. Animations & Reveals --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), 
+                        transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+        /* --- 12. Responsive Adaptations --- */
+        @media (max-width: 1024px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .news-grid { grid-template-columns: repeat(2, 1fr); }
+            .featured-card { grid-template-columns: 1fr; }
+            .featured-image { min-height: 300px; }
+            .featured-content { padding: 2rem; }
+        }
+
+        @media (max-width: 850px) {
+            .nav-links, .nav-actions { display: none; }
+            .mobile-toggle { display: block; }
+        }
+
+        @media (max-width: 600px) {
+            .footer-grid { grid-template-columns: 1fr; }
+            .news-grid { grid-template-columns: 1fr; }
+            .page-hero { padding: 4rem 0 3rem 0; }
+            .featured-content { padding: 1.5rem; }
+            .meta-info { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-nav {
+            position: fixed; top: 72px; left: 0; width: 100%; height: calc(100dvh - 72px);
+            background-color: var(--primary); padding: 2rem;
+            display: flex; flex-direction: column; gap: 1.5rem;
+            transform: translateX(100%); transition: transform var(--transition-smooth);
+            z-index: 999; overflow-y: auto;
+        }
+
+        .mobile-nav.active { transform: translateX(0); }
+
+        .mobile-nav a {
+            color: var(--surface); font-size: 1.25rem; font-weight: 500;
+            padding: 0.5rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: block;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .reveal { transition: none; opacity: 1; transform: none; }
+            * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <div class="logo-text">
+                    FIA
+                    <span>Falalu Int'l Academy</span>
+                </div>
+            </a>
+            
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="academics.html">Academics</a>
+                <a href="admissions.html">Admissions</a>
+                <a href="facilities.html">Facilities</a>
+                <a href="news.html" class="active">News & Events</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="portal.html" class="portal-link">
+                    <i class="fa-regular fa-user"></i> Portals
+                </a>
+                <a href="admissions.html" class="btn btn-accent">Apply Now</a>
+            </div>
+
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav" id="mobileNav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="academics.html">Academics</a>
+        <a href="admissions.html">Admissions</a>
+        <a href="facilities.html">Facilities</a>
+        <a href="news.html" style="color: var(--accent);">News & Events</a>
+        <a href="contact.html">Contact</a>
+        <a href="portal.html" style="margin-top: 1rem;">
+            <i class="fa-regular fa-user"></i> Student/Parent Portal
+        </a>
+    </div>
+
+    <main>
+        <!-- Page Hero -->
+        <section class="page-hero">
+            <div class="container">
+                <h1 class="heading-xl">News & Events</h1>
+                <p>Stay updated with the latest happenings, achievements, and announcements from Falalu International Academy.</p>
+            </div>
+        </section>
+
+        <!-- Featured Article Section -->
+        <section class="featured-section">
+            <div class="container">
+                <a href="news-article.html" class="featured-card reveal">
+                    <div class="featured-image" style="background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop');"></div>
+                    <div class="featured-content">
+                        <span class="badge">Admissions</span>
+                        <h2>Falalu International Academy Announces 2026/2027 Admissions</h2>
+                        <p>We are excited to announce that applications are now officially open for the upcoming academic session. We invite prospective parents and students to join our community of excellence.</p>
+                        <div class="meta-info">
+                            <span><i class="fa-regular fa-calendar"></i> October 15, 2026</span>
+                            <span><i class="fa-regular fa-user"></i> Admin Office</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- News Grid Section -->
+        <section class="section-padding">
+            <div class="container">
+                
+                <div class="news-grid">
+                    <!-- Article 2 -->
+                    <article class="news-card reveal">
+                        <div class="news-img" style="background-image: url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=2070&auto=format&fit=crop');"></div>
+                        <div class="news-content">
+                            <div class="meta-info" style="margin-bottom: 0.75rem; font-size: 0.75rem;">
+                                <span><i class="fa-regular fa-calendar"></i> Nov 02, 2026</span>
+                            </div>
+                            <h3>Students Excel at Annual Inter-House Sports Competition</h3>
+                            <p>It was a day of fierce competition, teamwork, and incredible athletic displays as our four houses battled for the championship trophy.</p>
+                            <a href="news-article.html" class="read-more">Read Article <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+
+                    <!-- Article 3 -->
+                    <article class="news-card reveal" style="transition-delay: 50ms;">
+                        <div class="news-img" style="background-image: url('https://images.unsplash.com/photo-1532094349884-543bc11b234d?q=80&w=2070&auto=format&fit=crop');"></div>
+                        <div class="news-content">
+                            <div class="meta-info" style="margin-bottom: 0.75rem; font-size: 0.75rem;">
+                                <span><i class="fa-regular fa-calendar"></i> Nov 20, 2026</span>
+                            </div>
+                            <h3>School Organises Science and Innovation Exhibition</h3>
+                            <p>Our young innovators showcased impressive projects, highlighting the importance of STEM education and critical thinking.</p>
+                            <a href="news-article.html" class="read-more">Read Article <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+
+                    <!-- Article 4 -->
+                    <article class="news-card reveal" style="transition-delay: 100ms;">
+                        <div class="news-img" style="background-image: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=2064&auto=format&fit=crop');"></div>
+                        <div class="news-content">
+                            <div class="meta-info" style="margin-bottom: 0.75rem; font-size: 0.75rem;">
+                                <span><i class="fa-regular fa-calendar"></i> Dec 05, 2026</span>
+                            </div>
+                            <h3>Cultural Day Celebrates Nigeria's Rich Diversity</h3>
+                            <p>Students and staff came together in vibrant traditional attire to celebrate the diverse cultures, languages, and cuisines of Nigeria.</p>
+                            <a href="news-article.html" class="read-more">Read Article <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+
+                    <!-- Article 5 -->
+                    <article class="news-card reveal" style="transition-delay: 150ms;">
+                        <div class="news-img" style="background-image: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop');"></div>
+                        <div class="news-content">
+                            <div class="meta-info" style="margin-bottom: 0.75rem; font-size: 0.75rem;">
+                                <span><i class="fa-regular fa-calendar"></i> Dec 15, 2026</span>
+                            </div>
+                            <h3>Outstanding Students Receive Academic Awards</h3>
+                            <p>At our end-of-year assembly, we recognized and celebrated students who demonstrated exceptional academic performance and character.</p>
+                            <a href="news-article.html" class="read-more">Read Article <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+
+                    <!-- Article 6 -->
+                    <article class="news-card reveal" style="transition-delay: 200ms;">
+                        <div class="news-img" style="background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop');"></div>
+                        <div class="news-content">
+                            <div class="meta-info" style="margin-bottom: 0.75rem; font-size: 0.75rem;">
+                                <span><i class="fa-regular fa-calendar"></i> Jan 10, 2027</span>
+                            </div>
+                            <h3>New State-of-the-Art ICT Lab Officially Opened</h3>
+                            <p>We are thrilled to unveil our newly upgraded computer laboratory, equipped with modern hardware to enhance digital literacy.</p>
+                            <a href="news-article.html" class="read-more">Read Article <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+                    
+                    <!-- Article 7 -->
+                    <article class="news-card reveal" style="transition-delay: 250ms;">
+                        <div class="news-img" style="background-image: url('https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=2070&auto=format&fit=crop');"></div>
+                        <div class="news-content">
+                            <div class="meta-info" style="margin-bottom: 0.75rem; font-size: 0.75rem;">
+                                <span><i class="fa-regular fa-calendar"></i> Jan 25, 2027</span>
+                            </div>
+                            <h3>Excursion to the National Museum: A Day of Discovery</h3>
+                            <p>Our JSS students embarked on an educational excursion to the National Museum, bringing their history lessons to life.</p>
+                            <a href="news-article.html" class="read-more">Read Article <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination reveal">
+                    <button class="page-btn" disabled aria-label="Previous Page"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn" aria-label="Next Page"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <div class="logo-text">
+                            FIA
+                            <span>Falalu Int'l Academy</span>
+                        </div>
+                    </a>
+                    <p>Providing quality education through academic excellence, innovative teaching methods, and character development.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-btn" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-btn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="management.html">Management</a></li>
+                        <li><a href="academics.html">Academics</a></li>
+                        <li><a href="admissions.html">Admissions</a></li>
+                        <li><a href="facilities.html">Facilities</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="news.html">News & Events</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="calendar.html">Academic Calendar</a></li>
+                        <li><a href="fees.html">School Fees</a></li>
+                        <li><a href="portal.html">Student Portal</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Contact Us</h4>
+                    <ul class="contact-list">
+                        <li>
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>Minna, Niger State, Nigeria.</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-phone"></i>
+                            <span>+234 803 456 7890</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-envelope"></i>
+                            <span>info@falaluacademy.example</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Falalu International Academy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript: Animations & Mobile Menu -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Mobile Menu Toggle
+            const mobileToggle = document.getElementById('mobileToggle');
+            const mobileNav = document.getElementById('mobileNav');
+            const toggleIcon = mobileToggle.querySelector('i');
+            const body = document.body;
+
+            const toggleMenu = () => {
+                const isOpen = mobileNav.classList.contains('active');
+                if (isOpen) {
+                    mobileNav.classList.remove('active');
+                    body.classList.remove('no-scroll');
+                    toggleIcon.classList.remove('fa-xmark');
+                    toggleIcon.classList.add('fa-bars');
+                } else {
+                    mobileNav.classList.add('active');
+                    body.classList.add('no-scroll');
+                    toggleIcon.classList.remove('fa-bars');
+                    toggleIcon.classList.add('fa-xmark');
+                }
+            };
+
+            mobileToggle.addEventListener('click', toggleMenu);
+            mobileNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => { if (mobileNav.classList.contains('active')) toggleMenu(); });
+            });
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 850 && mobileNav.classList.contains('active')) toggleMenu();
+            });
+
+            // 2. Intersection Observer for Scroll Animations
+            const revealElements = document.querySelectorAll('.reveal');
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            if (!prefersReducedMotion) {
+                const revealOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+                const revealOnScroll = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, revealOptions);
+
+                revealElements.forEach(el => revealOnScroll.observe(el));
+            } else {
+                revealElements.forEach(el => el.classList.add('is-visible'));
+            }
+        });
+    </script>
+</body>
+                          </html>
