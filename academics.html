@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academics | Falalu International Academy</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- 1. Design System & Variables --- */
+        :root {
+            --primary: #0F172A; 
+            --primary-light: #1E293B;
+            --secondary: #2563EB; 
+            --secondary-hover: #1D4ED8;
+            --accent: #D97706; 
+            --accent-hover: #B45309;
+            
+            --surface: #FFFFFF;
+            --bg: #F8FAFC;
+            --border: #E2E8F0;
+            
+            --text-main: #334155;
+            --text-light: #64748B;
+            
+            --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-serif: 'Playfair Display', Georgia, serif;
+            
+            --container-max: 1200px;
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* --- 2. Reset & Base --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body.no-scroll { overflow: hidden; }
+        a { color: inherit; text-decoration: none; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        /* --- 3. Typography & Utilities --- */
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-padding { padding: clamp(4rem, 8vw, 7rem) 0; }
+        .section-padding-sm { padding: clamp(3rem, 6vw, 5rem) 0; }
+
+        .heading-xl {
+            font-family: var(--font-serif);
+            font-size: clamp(2.25rem, 5vw, 3.5rem);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            color: var(--surface);
+            margin-bottom: 1.25rem;
+        }
+
+        .heading-lg {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .heading-md {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .body-lg {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            max-width: 65ch;
+            line-height: 1.7;
+        }
+
+        /* --- 4. Buttons --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-align: center;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .btn:focus-visible { outline: 2px solid var(--secondary); outline-offset: 2px; }
+        .btn-primary { background-color: var(--secondary); color: var(--surface); }
+        .btn-primary:hover { background-color: var(--secondary-hover); }
+        .btn-accent { background-color: var(--accent); color: var(--surface); }
+        .btn-accent:hover { background-color: var(--accent-hover); }
+
+        /* --- 5. Navigation --- */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--surface);
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .logo i { color: var(--accent); font-size: 1.5rem; }
+        
+        .logo-text span {
+            display: block;
+            font-family: var(--font-sans);
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #94A3B8;
+            margin-top: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--surface);
+            opacity: 0.8;
+            transition: opacity var(--transition-fast);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform var(--transition-smooth);
+        }
+
+        .nav-links a:hover, .nav-links a.active { opacity: 1; }
+        .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); transform-origin: left; }
+
+        .nav-actions { display: flex; align-items: center; gap: 1.5rem; }
+
+        .portal-link {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--surface);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0.8;
+            transition: opacity var(--transition-fast);
+        }
+        .portal-link:hover { opacity: 1; }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--surface);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+
+        /* --- 6. Page Hero --- */
+        .page-hero {
+            background-color: var(--primary);
+            padding: 5rem 0 4rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 1)), 
+                        url('https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2070&auto=format&fit=crop') center/cover;
+            opacity: 0.4;
+            z-index: 0;
+        }
+
+        .page-hero .container { position: relative; z-index: 1; }
+        .page-hero .heading-xl { margin-bottom: 0.5rem; }
+        .page-hero p { color: #CBD5E1; font-size: 1.125rem; max-width: 600px; margin: 0 auto; }
+
+        /* --- 7. Academics Editorial Layout --- */
+        .division-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 6rem;
+        }
+
+        .division-row:last-child { margin-bottom: 0; }
+
+        /* Alternate layout for even rows */
+        .division-row:nth-child(even) .division-image { order: 2; }
+        .division-row:nth-child(even) .division-content { order: 1; }
+
+        .division-image {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            aspect-ratio: 4/3;
+        }
+
+        .division-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .division-image:hover img {
+            transform: scale(1.03);
+        }
+
+        .division-badge {
+            display: inline-block;
+            background-color: #EFF6FF;
+            color: var(--secondary);
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .division-content p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        /* --- 8. Subject Tags --- */
+        .subject-list-title {
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .subject-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .subject-tag {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.8125rem;
+            font-weight: 500;
+            transition: all var(--transition-fast);
+        }
+
+        .subject-tag:hover {
+            border-color: var(--secondary);
+            color: var(--secondary);
+            background-color: #F8FAFC;
+        }
+
+        /* --- 9. Senior Secondary Tracks --- */
+        .tracks-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .track-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            transition: all var(--transition-smooth);
+        }
+
+        .track-card:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .track-card h4 {
+            font-size: 1.125rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .track-card h4 i {
+            color: var(--accent);
+            font-size: 1rem;
+        }
+
+        .track-card ul {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .track-card li {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .track-card li::before {
+            content: '•';
+            color: var(--secondary);
+            font-size: 1.2rem;
+            line-height: 0;
+        }
+
+        /* --- 10. CTA Banner --- */
+        .cta-section {
+            background-color: var(--primary-light);
+            padding: 5rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .cta-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .cta-content h2 { color: var(--surface); margin-bottom: 0.5rem; }
+        .cta-content p { color: #94A3B8; font-size: 1.125rem; }
+
+        /* --- 11. Footer --- */
+        .footer {
+            background-color: var(--primary);
+            color: var(--text-light);
+            padding: 4rem 0 2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand p { margin-top: 1rem; font-size: 0.875rem; color: #94A3B8; max-width: 300px; }
+        .footer-heading { color: var(--surface); font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.25rem; }
+        .footer-links li { margin-bottom: 0.75rem; }
+        .footer-links a { font-size: 0.875rem; color: #94A3B8; transition: color var(--transition-fast); }
+        .footer-links a:hover { color: var(--accent); }
+        .contact-list li { display: flex; gap: 0.75rem; margin-bottom: 1rem; font-size: 0.875rem; color: #94A3B8; }
+        .contact-list i { color: var(--accent); margin-top: 3px; width: 16px; }
+        .social-links { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+        
+        .social-btn {
+            display: flex; align-items: center; justify-content: center;
+            width: 32px; height: 32px; border-radius: var(--radius-sm);
+            background-color: rgba(255, 255, 255, 0.05); color: var(--surface);
+            transition: all var(--transition-fast);
+        }
+        .social-btn:hover { background-color: var(--accent); color: var(--surface); }
+
+        .footer-bottom {
+            padding-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex; justify-content: center; align-items: center;
+            font-size: 0.8125rem; color: #64748B; flex-wrap: wrap; gap: 1rem;
+        }
+
+        /* --- 12. Animations & Reveals --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), 
+                        transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+        /* --- 13. Responsive Adaptations --- */
+        @media (max-width: 1024px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .division-row { gap: 2rem; }
+            .tracks-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 850px) {
+            .nav-links, .nav-actions { display: none; }
+            .mobile-toggle { display: block; }
+            
+            .division-row { grid-template-columns: 1fr; gap: 2rem; margin-bottom: 4rem; }
+            
+            /* Reset ordering on mobile so image is always on top */
+            .division-row:nth-child(even) .division-image { order: 1; }
+            .division-row:nth-child(even) .division-content { order: 2; }
+            
+            .division-image { aspect-ratio: 16/9; }
+        }
+
+        @media (max-width: 600px) {
+            .footer-grid { grid-template-columns: 1fr; }
+            .page-hero { padding: 4rem 0 3rem 0; }
+            .cta-container { flex-direction: column; text-align: center; }
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-nav {
+            position: fixed; top: 72px; left: 0; width: 100%; height: calc(100dvh - 72px);
+            background-color: var(--primary); padding: 2rem;
+            display: flex; flex-direction: column; gap: 1.5rem;
+            transform: translateX(100%); transition: transform var(--transition-smooth);
+            z-index: 999; overflow-y: auto;
+        }
+
+        .mobile-nav.active { transform: translateX(0); }
+
+        .mobile-nav a {
+            color: var(--surface); font-size: 1.25rem; font-weight: 500;
+            padding: 0.5rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: block;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .reveal { transition: none; opacity: 1; transform: none; }
+            * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <div class="logo-text">
+                    FIA
+                    <span>Falalu Int'l Academy</span>
+                </div>
+            </a>
+            
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="academics.html" class="active">Academics</a>
+                <a href="admissions.html">Admissions</a>
+                <a href="facilities.html">Facilities</a>
+                <a href="news.html">News & Events</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="portal.html" class="portal-link">
+                    <i class="fa-regular fa-user"></i> Portals
+                </a>
+                <a href="admissions.html" class="btn btn-accent">Apply Now</a>
+            </div>
+
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav" id="mobileNav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="academics.html" style="color: var(--accent);">Academics</a>
+        <a href="admissions.html">Admissions</a>
+        <a href="facilities.html">Facilities</a>
+        <a href="news.html">News & Events</a>
+        <a href="contact.html">Contact</a>
+        <a href="portal.html" style="margin-top: 1rem;">
+            <i class="fa-regular fa-user"></i> Student/Parent Portal
+        </a>
+    </div>
+
+    <main>
+        <!-- Page Hero -->
+        <section class="page-hero">
+            <div class="container">
+                <h1 class="heading-xl">Academic Excellence</h1>
+                <p>A seamless educational journey from early childhood through to senior secondary school, designed to make every child future-ready.</p>
+            </div>
+        </section>
+
+        <!-- Academic Divisions Editorial Layout -->
+        <section class="section-padding">
+            <div class="container">
+
+                <!-- 1. Creche & Nursery -->
+                <div class="division-row reveal">
+                    <div class="division-image">
+                        <img src="https://images.unsplash.com/photo-1587654780291-39c9404d746b?q=80&w=2070&auto=format&fit=crop" alt="Creche and Nursery Students">
+                    </div>
+                    <div class="division-content">
+                        <span class="division-badge">Ages 6 months – 5 years</span>
+                        <h2 class="heading-lg">Creche & Nursery School</h2>
+                        <p>Our Early Childhood Development programme provides a warm, nurturing, and stimulating environment where our youngest learners can explore, play, and grow. We focus on building foundational skills through structured play and guided discovery.</p>
+                        
+                        <h3 class="subject-list-title">Programmes Offered</h3>
+                        <div class="subject-tags">
+                            <span class="subject-tag">Early Childhood Development</span>
+                            <span class="subject-tag">Phonics & Literacy</span>
+                            <span class="subject-tag">Basic Numeracy</span>
+                            <span class="subject-tag">Social Development</span>
+                            <span class="subject-tag">Creative Arts</span>
+                            <span class="subject-tag">Music & Movement</span>
+                            <span class="subject-tag">Play-based Learning</span>
+                            <span class="subject-tag">Communication Skills</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Primary School -->
+                <div class="division-row reveal">
+                    <div class="division-image">
+                        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop" alt="Primary School Students">
+                    </div>
+                    <div class="division-content">
+                        <span class="division-badge">Primary 1 – 6</span>
+                        <h2 class="heading-lg">Primary School</h2>
+                        <p>The Primary School years are critical for building strong academic foundations. Our curriculum is designed to foster curiosity, critical thinking, and a lifelong love for learning while ensuring every child masters core competencies.</p>
+                        
+                        <h3 class="subject-list-title">Core Subjects</h3>
+                        <div class="subject-tags">
+                            <span class="subject-tag">English Language</span>
+                            <span class="subject-tag">Mathematics</span>
+                            <span class="subject-tag">Basic Science & Tech</span>
+                            <span class="subject-tag">Social Studies</span>
+                            <span class="subject-tag">Civic Education</span>
+                            <span class="subject-tag">Computer Studies</span>
+                            <span class="subject-tag">P.H.E.</span>
+                            <span class="subject-tag">CRS / Islamic Studies</span>
+                            <span class="subject-tag">Cultural & Creative Arts</span>
+                            <span class="subject-tag">Nigerian Languages</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Junior Secondary School -->
+                <div class="division-row reveal">
+                    <div class="division-image">
+                        <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?q=80&w=2070&auto=format&fit=crop" alt="Junior Secondary Students">
+                    </div>
+                    <div class="division-content">
+                        <span class="division-badge">JSS 1 – 3</span>
+                        <h2 class="heading-lg">Junior Secondary School</h2>
+                        <p>During these formative years, we broaden our students' horizons. The JSS curriculum introduces a wider range of subjects to help students discover their strengths and interests before specializing in Senior Secondary School.</p>
+                        
+                        <h3 class="subject-list-title">Core Subjects</h3>
+                        <div class="subject-tags">
+                            <span class="subject-tag">English Language</span>
+                            <span class="subject-tag">Mathematics</span>
+                            <span class="subject-tag">Basic Science</span>
+                            <span class="subject-tag">Basic Technology</span>
+                            <span class="subject-tag">Business Studies</span>
+                            <span class="subject-tag">Computer Studies</span>
+                            <span class="subject-tag">Social Studies</span>
+                            <span class="subject-tag">Civic Education</span>
+                            <span class="subject-tag">Agricultural Science</span>
+                            <span class="subject-tag">Home Economics</span>
+                            <span class="subject-tag">French</span>
+                            <span class="subject-tag">Religious Studies</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Senior Secondary School -->
+                <div class="division-row reveal">
+                    <div class="division-image">
+                        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop" alt="Senior Secondary Students">
+                    </div>
+                    <div class="division-content">
+                        <span class="division-badge">SS 1 – 3</span>
+                        <h2 class="heading-lg">Senior Secondary School</h2>
+                        <p>Our Senior Secondary programme is designed to prepare students for higher education and career success. We offer specialized tracks that allow students to deeply focus on their chosen academic paths.</p>
+                        
+                        <div class="tracks-grid">
+                            <!-- Science Track -->
+                            <div class="track-card">
+                                <h4><i class="fa-solid fa-flask"></i> Science</h4>
+                                <ul>
+                                    <li>Physics</li>
+                                    <li>Chemistry</li>
+                                    <li>Biology</li>
+                                    <li>Mathematics</li>
+                                    <li>Further Mathematics</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Commercial Track -->
+                            <div class="track-card">
+                                <h4><i class="fa-solid fa-chart-line"></i> Commercial</h4>
+                                <ul>
+                                    <li>Economics</li>
+                                    <li>Commerce</li>
+                                    <li>Financial Accounting</li>
+                                    <li>Government</li>
+                                </ul>
+                            </div>
+
+                            <!-- Arts Track -->
+                            <div class="track-card">
+                                <h4><i class="fa-solid fa-palette"></i> Arts</h4>
+                                <ul>
+                                    <li>Literature in English</li>
+                                    <li>Government</li>
+                                    <li>History</li>
+                                    <li>CRS / IRS</li>
+                                    <li>Civic Education</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Admissions CTA Banner -->
+        <section class="cta-section reveal">
+            <div class="container cta-container">
+                <div class="cta-content">
+                    <h2 class="heading-lg" style="color: var(--surface);">Begin Your Child's Journey With Us</h2>
+                    <p>Join a community dedicated to Knowledge, Discipline & Excellence. Secure a place for the upcoming academic session.</p>
+                </div>
+                <a href="admissions.html" class="btn btn-accent" style="padding: 1rem 2rem; font-size: 1rem;">Start Application</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <div class="logo-text">
+                            FIA
+                            <span>Falalu Int'l Academy</span>
+                        </div>
+                    </a>
+                    <p>Providing quality education through academic excellence, innovative teaching methods, and character development.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-btn" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-btn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="management.html">Management</a></li>
+                        <li><a href="academics.html">Academics</a></li>
+                        <li><a href="admissions.html">Admissions</a></li>
+                        <li><a href="facilities.html">Facilities</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="news.html">News & Events</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="calendar.html">Academic Calendar</a></li>
+                        <li><a href="fees.html">School Fees</a></li>
+                        <li><a href="portal.html">Student Portal</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="footer-heading">Contact Us</h4>
+                    <ul class="contact-list">
+                        <li>
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>Minna, Niger State, Nigeria.</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-phone"></i>
+                            <span>+234 803 456 7890</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-envelope"></i>
+                            <span>info@falaluacademy.example</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Falalu International Academy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript: Animations & Mobile Menu -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Mobile Menu Toggle
+            const mobileToggle = document.getElementById('mobileToggle');
+            const mobileNav = document.getElementById('mobileNav');
+            const toggleIcon = mobileToggle.querySelector('i');
+            const body = document.body;
+
+            const toggleMenu = () => {
+                const isOpen = mobileNav.classList.contains('active');
+                if (isOpen) {
+                    mobileNav.classList.remove('active');
+                    body.classList.remove('no-scroll');
+                    toggleIcon.classList.remove('fa-xmark');
+                    toggleIcon.classList.add('fa-bars');
+                } else {
+                    mobileNav.classList.add('active');
+                    body.classList.add('no-scroll');
+                    toggleIcon.classList.remove('fa-bars');
+                    toggleIcon.classList.add('fa-xmark');
+                }
+            };
+
+            mobileToggle.addEventListener('click', toggleMenu);
+            mobileNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => { if (mobileNav.classList.contains('active')) toggleMenu(); });
+            });
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 850 && mobileNav.classList.contains('active')) toggleMenu();
+            });
+
+            // 2. Intersection Observer for Scroll Animations
+            const revealElements = document.querySelectorAll('.reveal');
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            if (!prefersReducedMotion) {
+                const revealOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+                const revealOnScroll = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, revealOptions);
+
+                revealElements.forEach(el => revealOnScroll.observe(el));
+            } else {
+                revealElements.forEach(el => el.classList.add('is-visible'));
+            }
+        });
+    </script>
+</body>
+  </html>
